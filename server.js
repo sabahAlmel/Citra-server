@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import { userRouter } from "./routes/userRoutes.js";
 dotenv.config();
 
 // express app
@@ -11,6 +11,9 @@ app.use(express.json());
 
 app.use(cors());
 app.use("/images", express.static("images"));
+
+app.use("/user", userRouter);
+
 async function startServer() {
   mongoose.connection.once("open", () => {
     console.log("mongo is ready");
