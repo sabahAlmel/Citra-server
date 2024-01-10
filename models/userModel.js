@@ -13,6 +13,10 @@ const userModelSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  phone: {
+    type: Number,
+    required: false,
+  },
   role: {
     type: String,
     required: true,

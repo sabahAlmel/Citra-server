@@ -4,7 +4,7 @@ import { createToken, verifyToken } from "../utils/token.js";
 
 // Sign up function
 export const signup = async (req, res) => {
-  const { name, email, role, photourl } = req.body;
+  const { name, email, role, photourl, phone } = req.body;
   const generatedPassword = "random";
   const password = req.body.password || generatedPassword;
   const picture = req.file.filename;
@@ -18,6 +18,7 @@ export const signup = async (req, res) => {
       role,
       picture: picture,
       photourl,
+      phone,
     });
     await newUser.save();
     const token = createToken(newUser);
@@ -37,7 +38,7 @@ export const signup = async (req, res) => {
 };
 //Google Auth
 export const gsignup = async (req, res) => {
-  const { name, email, role, photourl } = req.body;
+  const { name, email, role, photourl, phone } = req.body;
   const generatedPassword = "random";
   const password = req.body.password || generatedPassword;
   const picture = req.file;
@@ -66,6 +67,7 @@ export const gsignup = async (req, res) => {
         role,
         picture: picture,
         photourl,
+        phone,
       });
       await newUser.save();
       const token = createToken(newUser);
@@ -149,6 +151,7 @@ export const getOne = async (req, res) => {
         id: user._id,
         name: user.name,
         photourl: user.photourl,
+        phone: user.phone,
       });
     } else {
       return res.status(404).json({ error: "User Not Found!" });
@@ -164,7 +167,7 @@ export const getOne = async (req, res) => {
 export const updateUser = async (req, res) => {
   const id = req.params.id;
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     if (req.file) {
@@ -176,6 +179,7 @@ export const updateUser = async (req, res) => {
             email: email,
             password: hash,
             picture: req.file.filename,
+            phone: phone,
           },
         }
       );
@@ -187,6 +191,7 @@ export const updateUser = async (req, res) => {
             name: name,
             email: email,
             password: hash,
+            phone: phone,
           },
         }
       );
