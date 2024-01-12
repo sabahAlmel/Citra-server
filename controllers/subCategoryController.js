@@ -1,147 +1,91 @@
-// import SubCategorySchema from "../models/subCategoryModel";
+import SubCategorySchema from "../models/subCategoryModel";
 
-// // Fetch all Products
-// export const getAll = async (req, res) => {
-//   try {
-//     const allSubCteg = await SubCategorySchema.find();
-//     return res.status(200).json({ subCateg: allSubCteg });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: "cannot fetch products" });
-//   }
-// };
+// Fetch all subCateg
+export const getAll = async (req, res) => {
+  try {
+    const allSubCteg = await SubCategorySchema.find();
+    if (allSubCteg) {
+      return res.status(200).json({ subCateg: allSubCteg });
+    } else {
+      return res.status(300).json(message, "there is no subCategory");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "cannot fetch subCateg" });
+  }
+};
 
-// // Fetch one product by ID
-// export const getOne = async (req, res) => {
-//   const id = req.params.id;
-//   try {
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//       return res.status(400).json({ error: "No such product!" });
-//     }
-//     const product = await ProductSchema.findById({ _id: id });
-//     if (product) {
-//       return res.json("fetched one product", { fetchedProduct: product });
-//     } else {
-//       return res.status(404).json({ error: "Product Not Found!" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: "internal server err!" });
-//   }
-// };
+// Fetch one SubCateg by ID
+export const getOne = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const SubCateg = await SubCategorySchema.findById({ _id: id });
+    if (SubCateg) {
+      return res.json("fetched one SubCateg", { fetchedSubCateg: SubCateg });
+    } else {
+      return res.status(404).json({ error: "SubCateg Not Found!" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "internal server err!" });
+  }
+};
 
-// // Update Product
+// Update SubCateg
 
-// export const updateProduct = async (req, res) => {
-//   const id = req.params.id;
-//   if (!mongoose.Types.ObjectId.isValid(id)) {
-//     return res.status(404).json({ error: "No such product" });
-//   }
+export const updateSubCateg = async (req, res) => {
+  const id = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such SubCateg" });
+  }
 
-//   try {
-//     const {
-//       name,
-//       price,
-//       serialNumber,
-//       color,
-//       size,
-//       type,
-//       description,
-//       quantity,
-//     } = req.body;
-//     const image = req.file;
+  try {
+    const { name } = req.body;
 
-//     if (req.file) {
-//       await ProductSchema.findByIdAndUpdate(
-//         { _id: id },
-//         {
-//           $set: {
-//             name: name,
-//             price: price,
-//             serialNumber: serialNumber,
-//             image: image,
-//             details: {
-//               color: color,
-//               size: size,
-//               type: type,
-//               description: description,
-//             },
-//             quantity: quantity,
-//           },
-//         }
-//       );
-//     } else {
-//       await ProductSchema.findByIdAndUpdate(
-//         { _id: id },
-//         {
-//           $set: {
-//             name: name,
-//             price: price,
-//             serialNumber: serialNumber,
-//             details: {
-//               color: color,
-//               size: size,
-//               type: type,
-//               description: description,
-//             },
-//             quantity: quantity,
-//           },
-//         }
-//       );
-//     }
-//     return res.status(200).json({ message: "Product updated successfully" });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: "Trouble updating Product info" });
-//   }
-// };
+    await SubCategorySchema.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          name: name,
+        },
+      }
+    );
 
-// // Delete product
+    return res.status(200).json({ message: "SubCateg updated successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Trouble updating SubCateg info" });
+  }
+};
 
-// export const deleteProduct = async (req, res) => {
-//   const id = req.params.id;
-//   try {
-//     await ProductSchema.deleteOne({ _id: id });
-//     res.status(200).json({ message: "Product deleted successfully" });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: " could not delete product" });
-//   }
-// };
+// Delete SubCateg
 
-// //create product
+export const deleteSubCateg = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await SubCategorySchema.deleteOne({ _id: id });
+    res.status(200).json({ message: "SubCateg deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: " could not delete SubCateg" });
+  }
+};
 
-// export const createProduct = async (req, res) => {
-//   const {
-//     name,
-//     price,
-//     serialNumber,
-//     color,
-//     size,
-//     type,
-//     description,
-//     quantity,
-//   } = req.body;
-//   const image = req.file;
-//   try {
-//     const newProduct = new ProductSchema({
-//       name,
-//       price,
-//       serialNumber,
-//       details: {
-//         color: color,
-//         size: size,
-//         type: type,
-//         description: description,
-//       },
-//       quantity,
-//       image,
-//     });
-//     await newProduct.save();
-//     res
-//       .status(200)
-//       .json({ message: "product added successfully !", product: newProduct });
-//   } catch (err) {
-//     res.status(500).json({ message: "problem adding product", error: err });
-//   }
-// };
+//create SubCateg
+
+export const createSubCateg = async (req, res) => {
+  const { name, categoryID } = req.body;
+  try {
+    const newSubCateg = new SubCategorySchema({
+      name,
+      categoryID,
+    });
+    await newSubCateg.save();
+    res.status(200).json({
+      message: "SubCateg added successfully !",
+      SubCateg: newSubCateg,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "problem adding SubCateg", error: err });
+  }
+};

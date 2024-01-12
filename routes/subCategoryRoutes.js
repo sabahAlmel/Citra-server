@@ -1,18 +1,18 @@
-// import express from "express";
-// import {
-//   getAll,
-//   getOne,
-//   updateCategory,
-//   deleteCategory,
-//   createCategory,
-// } from "../controllers/productController.js";
-// import upload from "../middlewares/multer.js";
+import express from "express";
+import {
+  getAll,
+  getOne,
+  updateCategory,
+  deleteCategory,
+  createCategory,
+} from "../controllers/productController.js";
+import upload from "../middlewares/multer.js";
 
-// export const userRouter = express.Router();
+export const userRouter = express.Router();
 
-// productRouter.get("/getone", getOne);
-// productRouter.get("/getall", getAll);
+subCategoryRouter.get("/getone", getOne);
+subCategoryRouter.get("/getall", getAll);
 
-// productRouter.patch("/:id", upload.array("image", 5), updateProduct);
-// productRouter.post("/create", upload.array("image", 5), createProduct);
-// productRouter.delete("/:id", deleteProduct);
+subCategoryRouter.patch("/:id", upload.array("image", 5), updateCategory);
+subCategoryRouter.post("/create", upload.array("image", 5), createCategory);
+subCategoryRouter.delete("/:id", deleteCategory);
