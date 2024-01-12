@@ -6,6 +6,7 @@ import { userRouter } from "./routes/userRoutes.js";
 import { productRouter } from "./routes/productRoutes.js";
 import { subCategoryRouter } from "./routes/subCategoryRoutes.js";
 import { categoryRouter } from "./routes/categoryRoutes.js";
+import { orderRouter } from "./routes/orderRoutes.js";
 dotenv.config();
 
 // express app
@@ -19,6 +20,7 @@ app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/subCategory", subCategoryRouter);
 app.use("/category", categoryRouter);
+app.use("/order", orderRouter);
 
 async function startServer() {
   mongoose.connection.once("open", () => {

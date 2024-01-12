@@ -8,7 +8,7 @@ import {
 } from "../controllers/productController.js";
 import upload from "../middlewares/multer.js";
 
-export const userRouter = express.Router();
+export const subCategoryRouter = express.Router();
 
 subCategoryRouter.get("/getone", getOne);
 subCategoryRouter.get("/getall", getAll);
