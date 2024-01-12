@@ -5,12 +5,12 @@ import {
   getAllCategories,
   updateCategory,
   deleteCategory,
-} from "../controllers/categoryController";
+} from "../controllers/categoryController.js";
 
-export const categoryrRouter = express.Router();
+export const categoryRouter = express.Router();
 
-categoryrRouter.post("/create", createCategory);
-categoryrRouter.get("/getone/:id", getCategoryByID);
-categoryrRouter.get("/getall", getAllCategories);
-categoryrRouter.put("/update", updateCategory);
-categoryrRouter.delete("/delete", deleteCategory);
+categoryRouter.post("/create", createCategory);
+categoryRouter.get("/getone/:id", getCategoryByID);
+categoryRouter.get("/getall", getAllCategories);
+categoryRouter.put("/update/:id", updateCategory);
+categoryRouter.delete("/delete", deleteCategory);
