@@ -1,4 +1,4 @@
-import OrderSchema from "../models/orderModel";
+import OrderSchema from "../models/orderModel.js";
 
 //create order
 
