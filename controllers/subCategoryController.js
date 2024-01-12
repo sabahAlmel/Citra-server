@@ -1,4 +1,4 @@
-import SubCategorySchema from "../models/subCategoryModel";
+import SubCategorySchema  from "../models/subCategoryModel.js"
 
 // Fetch all subCateg
 export const getAll = async (req, res) => {
