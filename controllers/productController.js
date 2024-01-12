@@ -1,5 +1,5 @@
 import ProductSchema from "../models/productModel.js";
-
+import mongoose from "mongoose";
 
 // Fetch all Products
 export const getAll = async (req, res) => {
@@ -50,9 +50,9 @@ export const updateProduct = async (req, res) => {
       description,
       quantity,
     } = req.body;
-    const image = req.file;
+    const images = req.files.map((image) => image.filename);
 
-    if (req.file) {
+    if (req.files) {
       await ProductSchema.findByIdAndUpdate(
         { _id: id },
         {
@@ -60,7 +60,7 @@ export const updateProduct = async (req, res) => {
             name: name,
             price: price,
             serialNumber: serialNumber,
-            image: image,
+            images: images,
             details: {
               color: color,
               size: size,
@@ -113,23 +113,23 @@ export const deleteProduct = async (req, res) => {
 //create product
 
 export const createProduct = async (req, res) => {
-  const {
-    name,
-    price,
-    serialNumber,
-    color,
-    size,
-    type,
-    description,
-    quantity,
-    subCategoryID,
-    categoryID,
-  } = req.body;
-  const image = req.file.filename;
-  
   try {
-        console.log("Received Request Body:", req.body);
-        console.log("Received Request File:", req.file);
+    const {
+      name,
+      price,
+      serialNumber,
+      color,
+      size,
+      type,
+      description,
+      quantity,
+      subCategoryID,
+      categoryID,
+    } = req.body;
+    const images = req.files.map((image) => image.filename);
+
+    console.log("Received Request Body:", req.body);
+    console.log("Received Request File:", req.files);
     const newProduct = new ProductSchema({
       name,
       price,
@@ -141,7 +141,7 @@ export const createProduct = async (req, res) => {
         description: description,
       },
       quantity,
-      image,
+      images: images,
       subCategoryID,
       categoryID,
     });
@@ -151,6 +151,5 @@ export const createProduct = async (req, res) => {
       .json({ message: "product added successfully !", product: newProduct });
   } catch (err) {
     res.status(500).json({ message: "problem adding product", error: err });
- 
   }
 };

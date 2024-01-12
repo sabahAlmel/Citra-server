@@ -14,10 +14,12 @@ const productModelSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    image: {
-      type: String,
-      required: true,
-    },
+    images: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     details: {
       color: {
         type: String,
