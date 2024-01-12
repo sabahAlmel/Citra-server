@@ -13,6 +13,9 @@ app.use(cors());
 app.use("/images", express.static("images"));
 
 app.use("/user", userRouter);
+app.use("/product", productRouter);
+app.use("/subCategory", subCategoryRouter);
+
 
 async function startServer() {
   mongoose.connection.once("open", () => {
