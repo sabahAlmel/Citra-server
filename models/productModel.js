@@ -20,19 +20,19 @@ const productModelSchema = new mongoose.Schema(
     },
     details: {
       color: {
-        type: string,
+        type: String,
         required: false,
       },
       size: {
-        type: string,
+        type: String,
         required: false,
       },
       type: {
-        type: string,
+        type: String,
         required: false,
       },
       description: {
-        type: string,
+        type: String,
         required: false,
       },
     },

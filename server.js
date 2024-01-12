@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { userRouter } from "./routes/userRoutes.js";
+import { productRouter } from "./routes/productRoutes.js";
+// import { subCategoryRouter } from "./routes/subCategoryRoutes.js";
 dotenv.config();
 
 // express app
@@ -14,8 +16,7 @@ app.use("/images", express.static("images"));
 
 app.use("/user", userRouter);
 app.use("/product", productRouter);
-app.use("/subCategory", subCategoryRouter);
-
+// app.use("/subCategory", subCategoryRouter);
 
 async function startServer() {
   mongoose.connection.once("open", () => {
