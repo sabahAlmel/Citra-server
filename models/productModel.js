@@ -37,9 +37,9 @@ const productModelSchema = new mongoose.Schema(
       },
     },
     subCategoryID: {
-      type: mongoose.Schema.Types.ObjectId, // Field type
-      ref: "SubCategory", // Reference to the "Author" collection
-      required: true, // Must be provided
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubCategorySchema",
+      required: true,
     },
     categoryID: {
       type: mongoose.Schema.Types.ObjectId, // Field type
