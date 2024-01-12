@@ -13,6 +13,6 @@ export const userRouter = express.Router();
 productRouter.get("/getone", getOne);
 productRouter.get("/getall", getAll);
 
-productRouter.patch("/:id", upload.single("image"), updateProduct);
-productRouter.post("/create", upload.single("image"), createProduct);
+productRouter.patch("/:id", upload.array("image", 5), updateProduct);
+productRouter.post("/create", upload.array("image", 5), createProduct);
 productRouter.delete("/:id", deleteProduct);

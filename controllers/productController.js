@@ -78,7 +78,6 @@ export const updateProduct = async (req, res) => {
             name: name,
             price: price,
             serialNumber: serialNumber,
-            image: image,
             details: {
               color: color,
               size: size,
