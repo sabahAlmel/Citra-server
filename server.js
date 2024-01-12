@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { userRouter } from "./routes/userRoutes.js";
+import { productRouter } from "./routes/productRoutes.js";
+import { subCategoryRouter } from "./routes/subCategoryRoutes.js";
 import { categoryRouter } from "./routes/categoryRoutes.js";
 dotenv.config();
 
@@ -14,6 +16,8 @@ app.use(cors());
 app.use("/images", express.static("images"));
 
 app.use("/user", userRouter);
+app.use("/product", productRouter);
+app.use("/subCategory", subCategoryRouter);
 app.use("/category", categoryRouter);
 
 async function startServer() {
