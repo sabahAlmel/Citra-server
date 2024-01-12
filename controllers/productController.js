@@ -1,5 +1,6 @@
 import ProductSchema from "../models/productModel.js";
 
+
 // Fetch all Products
 export const getAll = async (req, res) => {
   try {
@@ -121,9 +122,14 @@ export const createProduct = async (req, res) => {
     type,
     description,
     quantity,
+    subCategoryID,
+    categoryID,
   } = req.body;
-  const image = req.file;
+  const image = req.file.filename;
+  
   try {
+        console.log("Received Request Body:", req.body);
+        console.log("Received Request File:", req.file);
     const newProduct = new ProductSchema({
       name,
       price,
@@ -136,6 +142,8 @@ export const createProduct = async (req, res) => {
       },
       quantity,
       image,
+      subCategoryID,
+      categoryID,
     });
     await newProduct.save();
     res
@@ -143,5 +151,6 @@ export const createProduct = async (req, res) => {
       .json({ message: "product added successfully !", product: newProduct });
   } catch (err) {
     res.status(500).json({ message: "problem adding product", error: err });
+ 
   }
 };

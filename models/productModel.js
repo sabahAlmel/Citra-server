@@ -41,6 +41,11 @@ const productModelSchema = new mongoose.Schema(
       ref: "SubCategory", // Reference to the "Author" collection
       required: true, // Must be provided
     },
+    categoryID: {
+      type: mongoose.Schema.Types.ObjectId, // Field type
+      ref: "Category", // Reference to the "Author" collection
+      required: true, // Must be provided
+    },
     quantity: {
       type: Number,
       required: false,

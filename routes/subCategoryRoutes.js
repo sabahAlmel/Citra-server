@@ -6,13 +6,12 @@ import {
   deleteSubCateg,
   updateSubCateg,
 } from "../controllers/subCategoryController.js";
-import upload from "../middlewares/multer.js";
 
 export const subCategoryRouter = express.Router();
 
-subCategoryRouter.get("/getone", getOne);
+subCategoryRouter.get("/getone/:id", getOne);
 subCategoryRouter.get("/getall", getAll);
 
-subCategoryRouter.patch("/:id", upload.array("image", 5), updateSubCateg);
-subCategoryRouter.post("/create", upload.array("image", 5), createSubCateg);
+subCategoryRouter.patch("/:id",  updateSubCateg);
+subCategoryRouter.post("/create", createSubCateg);
 subCategoryRouter.delete("/:id", deleteSubCateg);
