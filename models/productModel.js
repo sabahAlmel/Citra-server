@@ -42,9 +42,9 @@ const productModelSchema = new mongoose.Schema(
       required: true,
     },
     categoryID: {
-      type: mongoose.Schema.Types.ObjectId, // Field type
-      ref: "Category", // Reference to the "Author" collection
-      required: true, // Must be provided
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
     quantity: {
       type: Number,

@@ -1,5 +1,5 @@
-import SubCategorySchema  from "../models/subCategoryModel.js"
-import mongoose  from "mongoose";
+import SubCategorySchema from "../models/subCategoryModel.js";
+import mongoose from "mongoose";
 // Fetch all subCateg
 export const getAll = async (req, res) => {
   try {
@@ -19,9 +19,11 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   const id = req.params.id;
   try {
-    const SubCateg = await SubCategorySchema.findById(id);
+    const SubCateg = await SubCategorySchema.findById({ _id: id });
     if (SubCateg) {
-      return res.status(200).json("fetched one SubCateg", { fetchedSubCateg: SubCateg });
+      return res
+        .status(200)
+        .json({ message: "fetched one SubCateg", fetchedSubCateg: SubCateg });
     } else {
       return res.status(404).json({ error: "SubCateg Not Found!" });
     }
@@ -76,7 +78,7 @@ export const deleteSubCateg = async (req, res) => {
 export const createSubCateg = async (req, res) => {
   const { name, categoryID } = req.body;
   try {
-    const newSubCateg = new SubCategorySchema.cre({
+    const newSubCateg = new SubCategorySchema({
       name,
       categoryID,
     });
