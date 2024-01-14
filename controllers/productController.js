@@ -153,3 +153,22 @@ export const createProduct = async (req, res) => {
     res.status(500).json({ message: "problem adding product", error: err });
   }
 };
+
+// search product by name
+
+export const searchProduct = async (req, res) => {
+  try {
+    const { search } = req.body;
+    const searchRegex = new RegExp(search, "i");
+    const foundProducts = await ProductSchema.find({
+      name: searchRegex,
+    });
+    res
+      .status(200)
+      .json({ message: " products found !", products: foundProducts });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "error searching for product", error: err });
+  }
+};
