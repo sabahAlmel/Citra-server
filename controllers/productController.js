@@ -3,8 +3,14 @@ import mongoose from "mongoose";
 
 // Fetch all Products
 export const getAll = async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
   try {
-    const allProducts = await ProductSchema.find();
+    const allProducts = await ProductSchema.find().skip(skip).limit(limit);
+    if (!allProducts || allProducts.length == 0) {
+      return res.status(404).send(" no more products to show !");
+    }
     return res.status(200).json({ products: allProducts });
   } catch (err) {
     console.log(err);
@@ -162,12 +168,20 @@ export const createProduct = async (req, res) => {
 // search product by name
 
 export const searchProduct = async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
   try {
     const { search } = req.body;
     const searchRegex = new RegExp(search, "i");
     const foundProducts = await ProductSchema.find({
       name: searchRegex,
-    });
+    })
+      .skip(skip)
+      .limit(limit);
+    if (!foundProducts || foundProducts.length == 0) {
+      return res.status(404).send(" no more products to show !");
+    }
     res
       .status(200)
       .json({ message: " products found !", products: foundProducts });
@@ -181,11 +195,20 @@ export const searchProduct = async (req, res) => {
 // get by category
 
 export const getByCategory = async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
   try {
     const categoryID = req.params.categoryID;
     const fetchedProducts = await ProductSchema.find({
       categoryID: categoryID,
-    }).populate("categoryID");
+    })
+      .populate("categoryID")
+      .skip(skip)
+      .limit(limit);
+    if (!fetchedProducts || fetchedProducts.length == 0) {
+      return res.status(404).send(" no more products to show !");
+    }
     res.status(200).json({
       message: `fetched products under ${fetchedProducts[0].categoryID.name} :`,
       products: fetchedProducts,
@@ -198,11 +221,20 @@ export const getByCategory = async (req, res) => {
 //get products by sub category
 
 export const getBySubCategory = async (req, res) => {
+  const page = req.query.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
   try {
     const subCategoryID = req.params.subCategoryID;
     const fetchedProducts = await ProductSchema.find({
       subCategoryID: subCategoryID,
-    }).populate("subCategoryID");
+    })
+      .populate("subCategoryID")
+      .skip(skip)
+      .limit(limit);
+    if (!fetchedProducts || fetchedProducts.length == 0) {
+      return res.status(404).send(" no more products to show !");
+    }
     res.status(200).json({
       message: `fetched products under ${fetchedProducts[0].subCategoryID.name} :`,
       products: fetchedProducts,
