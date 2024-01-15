@@ -7,6 +7,7 @@ import {
   createProduct,
   searchProduct,
   getByCategory,
+  getBySubCategory,
 } from "../controllers/productController.js";
 import upload from "../middlewares/multer.js";
 
@@ -16,6 +17,7 @@ productRouter.get("/getone", getOne);
 productRouter.get("/getall", getAll);
 productRouter.get("/search", searchProduct);
 productRouter.get("/bycategory/:categoryID", getByCategory);
+productRouter.get("/bysubcategory/:subCategoryID", getBySubCategory);
 
 productRouter.patch("/:id", upload.array("image", 5), updateProduct);
 productRouter.post("/create", upload.array("image", 5), createProduct);

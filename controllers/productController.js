@@ -194,3 +194,20 @@ export const getByCategory = async (req, res) => {
     res.status(500).json({ message: "error fetching products", error: err });
   }
 };
+
+//get products by sub category
+
+export const getBySubCategory = async (req, res) => {
+  try {
+    const subCategoryID = req.params.subCategoryID;
+    const fetchedProducts = await ProductSchema.find({
+      subCategoryID: subCategoryID,
+    }).populate("subCategoryID");
+    res.status(200).json({
+      message: `fetched products under ${fetchedProducts[0].subCategoryID.name} :`,
+      products: fetchedProducts,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "error fetching products", error: err });
+  }
+};
