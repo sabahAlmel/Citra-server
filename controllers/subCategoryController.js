@@ -91,3 +91,22 @@ export const createSubCateg = async (req, res) => {
     res.status(500).json({ message: "problem adding SubCateg", error: err });
   }
 };
+
+//get by category
+
+export const getSubByCategory = async (req, res) => {
+  try {
+    const categoryID = req.params.categoryID;
+    const subCategories = await SubCategorySchema.find({
+      categoryID: categoryID,
+    }).populate("categoryID");
+    res.status(200).json({
+      message: `fetched categories under ${subCategories[0].categoryID.name} :`,
+      subCategories: subCategories,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "error fetching sub categories", error: err });
+  }
+};
