@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import slug from "mongoose-slug-generator";
+
+mongoose.plugin(slug);
 
 const productModelSchema = new mongoose.Schema(
   {
@@ -51,6 +54,11 @@ const productModelSchema = new mongoose.Schema(
     quantity: {
       type: Number,
       required: false,
+    },
+    slug: {
+      type: String,
+      slug: "name",
+      unique: true,
     },
   },
   { timestamps: true }
