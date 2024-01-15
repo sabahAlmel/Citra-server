@@ -21,7 +21,10 @@ export const getOne = async (req, res) => {
     }
     const product = await ProductSchema.findById({ _id: id });
     if (product) {
-      return res.json("fetched one product", { fetchedProduct: product });
+      return res.json({
+        message: "fetched one product",
+        fetchedProduct: product,
+      });
     } else {
       return res.status(404).json({ error: "Product Not Found!" });
     }
@@ -125,6 +128,7 @@ export const createProduct = async (req, res) => {
       quantity,
       subCategoryID,
       categoryID,
+      categoryName,
     } = req.body;
     const images = req.files.map((image) => image.filename);
 
@@ -144,6 +148,7 @@ export const createProduct = async (req, res) => {
       images: images,
       subCategoryID,
       categoryID,
+      categoryName,
     });
     await newProduct.save();
     res
@@ -170,5 +175,22 @@ export const searchProduct = async (req, res) => {
     res
       .status(500)
       .json({ message: "error searching for product", error: err });
+  }
+};
+
+// get by category
+
+export const getByCategory = async (req, res) => {
+  try {
+    const categoryID = req.params.categoryID;
+    const fetchedProducts = await ProductSchema.find({
+      categoryID: categoryID,
+    }).populate("categoryID");
+    res.status(200).json({
+      message: `fetched products under ${fetchedProducts[0].categoryID.name} :`,
+      products: fetchedProducts,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "error fetching products", error: err });
   }
 };

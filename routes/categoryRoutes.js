@@ -10,7 +10,10 @@ import {
 export const categoryRouter = express.Router();
 
 categoryRouter.post("/create", createCategory);
+
 categoryRouter.get("/getone/:id", getCategoryByID);
 categoryRouter.get("/getall", getAllCategories);
+
 categoryRouter.put("/update/:id", updateCategory);
+
 categoryRouter.delete("/delete", deleteCategory);

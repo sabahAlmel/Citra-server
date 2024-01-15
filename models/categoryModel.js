@@ -6,6 +6,11 @@ const categoryModelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    productID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProductSchema",
+      required: true,
+    },
   },
   { timestamps: true }
 );
