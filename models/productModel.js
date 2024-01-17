@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import slug from "mongoose-slug-generator";
-
-mongoose.plugin(slug);
-
+import slugify from "slugify";
 const productModelSchema = new mongoose.Schema(
   {
     name: {
@@ -20,27 +17,29 @@ const productModelSchema = new mongoose.Schema(
     images: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
-    details: {
-      color: {
-        type: String,
-        required: false,
+    details: [
+      {
+        color: {
+          type: String,
+          required: true,
+        },
+        sizes: [
+          {
+            size: {
+              type: String,
+              required: true,
+            },
+            quantity: {
+              type: Number,
+              required: true,
+            },
+          },
+        ],
       },
-      size: {
-        type: String,
-        required: false,
-      },
-      type: {
-        type: String,
-        required: false,
-      },
-      description: {
-        type: String,
-        required: false,
-      },
-    },
+    ],
     subCategoryID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "SubCategorySchema",
@@ -51,19 +50,28 @@ const productModelSchema = new mongoose.Schema(
       ref: "CategorySchema",
       required: true,
     },
-    quantity: {
-      type: Number,
-      required: false,
-    },
     slug: {
       type: String,
-      slug: "name",
-      unique: true,
+      unique: false,
+    },
+    type: {
+      type: String,
+      required: false,
+    },
+    description: {
+      type: String,
+      required: false,
     },
   },
   { timestamps: true }
 );
 
+productModelSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 const ProductSchema = mongoose.model("ProductSchema", productModelSchema);
 
 export default ProductSchema;
+
+// [{"color":"red", "sizes":[{"size":"small", "quantity":9},{"size":"medium", "quantity":20}]},{"color":"blue", "sizes":[{"size":"small", "quantity":9}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]}]

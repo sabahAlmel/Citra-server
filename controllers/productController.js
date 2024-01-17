@@ -1,5 +1,16 @@
 import ProductSchema from "../models/productModel.js";
 import mongoose from "mongoose";
+import fs from "fs";
+
+function removeImage(image) {
+  fs.unlinkSync("images/" + image, (err) => {
+    if (err) {
+      console.log(`we can't delete the image`);
+    } else {
+      console.log("image deleted");
+    }
+  });
+}
 
 // Fetch all Products
 export const getAll = async (req, res) => {
@@ -49,17 +60,8 @@ export const updateProduct = async (req, res) => {
   }
 
   try {
-    const {
-      name,
-      price,
-      serialNumber,
-      color,
-      size,
-      type,
-      description,
-      quantity,
-    } = req.body;
-    const images = req.files.map((image) => image.filename);
+    const { name, price, serialNumber, details, type, description } = req.body;
+    const images = req.files ? req.files.map((image) => image.filename) : null;
 
     if (req.files) {
       await ProductSchema.findByIdAndUpdate(
@@ -70,13 +72,9 @@ export const updateProduct = async (req, res) => {
             price: price,
             serialNumber: serialNumber,
             images: images,
-            details: {
-              color: color,
-              size: size,
-              type: type,
-              description: description,
-            },
-            quantity: quantity,
+            details: details,
+            type: type,
+            description: description,
           },
         }
       );
@@ -88,13 +86,9 @@ export const updateProduct = async (req, res) => {
             name: name,
             price: price,
             serialNumber: serialNumber,
-            details: {
-              color: color,
-              size: size,
-              type: type,
-              description: description,
-            },
-            quantity: quantity,
+            details: details,
+            type: type,
+            description: description,
           },
         }
       );
@@ -111,14 +105,20 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const id = req.params.id;
   try {
-    await ProductSchema.deleteOne({ _id: id });
-    res.status(200).json({ message: "Product deleted successfully" });
+    const product = await ProductSchema.findOneAndDelete({ _id: id });
+    if (product) {
+      console.log(product);
+      if (product.images) {
+        product.images.map((image) => removeImage(image));
+      }
+      return res.status(200).json({ message: "deleted successfully !" });
+    } else {
+      return res.status(404).json({ message: "product not found" });
+    }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: " could not delete product" });
+    res.status(500).json({ message: "error deleting product", error: err });
   }
 };
-
 //create product
 
 export const createProduct = async (req, res) => {
@@ -127,35 +127,26 @@ export const createProduct = async (req, res) => {
       name,
       price,
       serialNumber,
-      color,
-      size,
+      details,
       type,
       description,
-      quantity,
       subCategoryID,
       categoryID,
-      categoryName,
     } = req.body;
-    const images = req.files.map((image) => image.filename);
-
-    console.log("Received Request Body:", req.body);
-    console.log("Received Request File:", req.files);
+    const images = req.files ? req.files.map((image) => image.filename) : null;
+    const detail = JSON.parse(details);
     const newProduct = new ProductSchema({
-      name,
-      price,
-      serialNumber,
-      details: {
-        color: color,
-        size: size,
-        type: type,
-        description: description,
-      },
-      quantity,
+      name: name,
+      price: price,
+      serialNumber: serialNumber,
+      details: detail,
       images: images,
-      subCategoryID,
-      categoryID,
-      categoryName,
+      type: type,
+      description: description,
+      subCategoryID: subCategoryID,
+      categoryID: categoryID,
     });
+
     await newProduct.save();
     res
       .status(200)
@@ -241,5 +232,16 @@ export const getBySubCategory = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: "error fetching products", error: err });
+  }
+};
+
+//delete all
+
+export const deleteAll = async (req, res) => {
+  try {
+    await ProductSchema.deleteMany({});
+    res.status(200).json({ message: "deleted all products succesfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

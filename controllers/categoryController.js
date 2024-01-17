@@ -86,20 +86,3 @@ export const deleteCategory = async (req, res) => {
       .json({ message: " could not delete category !", error: err });
   }
 };
-
-// //all products by category
-
-// export const productsByCategory = async (req, res) => {
-//   try {
-//     const { name } = req.body;
-//     const foundProducts = await CategorySchema.findOne({
-//       name: name,
-//     }).populate("productID");
-//     res.status(200).json({
-//       message: `products under ${name} found :`,
-//       products: foundProducts.productID,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: "error fetching products", error: err });
-//   }
-// };

@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import slug from "mongoose-slug-generator";
-
-mongoose.plugin(slug);
+import slugify from "slugify";
 
 const categoryModelSchema = new mongoose.Schema(
   {
@@ -9,19 +7,18 @@ const categoryModelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    productID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProductSchema",
-      required: true,
-    },
     slug: {
       type: String,
-      slug: "name",
       unique: true,
     },
   },
   { timestamps: true }
 );
+
+categoryModelSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 
 const CategorySchema = mongoose.model("CategorySchema", categoryModelSchema);
 
