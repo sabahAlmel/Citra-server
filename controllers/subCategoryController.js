@@ -42,13 +42,14 @@ export const updateSubCateg = async (req, res) => {
   }
 
   try {
-    const { name } = req.body;
+    const { name, arabicName } = req.body;
 
     await SubCategorySchema.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           name: name,
+          arabicName: arabicName,
         },
       }
     );
@@ -76,11 +77,12 @@ export const deleteSubCateg = async (req, res) => {
 //create SubCateg
 
 export const createSubCateg = async (req, res) => {
-  const { name, categoryID } = req.body;
+  const { name, categoryID, arabicName } = req.body;
   try {
     const newSubCateg = new SubCategorySchema({
       name,
       categoryID,
+      arabicName,
     });
     await newSubCateg.save();
     res.status(200).json({

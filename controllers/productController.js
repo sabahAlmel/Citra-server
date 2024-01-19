@@ -60,7 +60,15 @@ export const updateProduct = async (req, res) => {
   }
 
   try {
-    const { name, price, serialNumber, details, type, description } = req.body;
+    const {
+      name,
+      price,
+      serialNumber,
+      details,
+      type,
+      description,
+      arabicName,
+    } = req.body;
     const images = req.files ? req.files.map((image) => image.filename) : null;
 
     if (req.files) {
@@ -68,6 +76,7 @@ export const updateProduct = async (req, res) => {
         { _id: id },
         {
           $set: {
+            arabicName: arabicName,
             name: name,
             price: price,
             serialNumber: serialNumber,
@@ -83,6 +92,7 @@ export const updateProduct = async (req, res) => {
         { _id: id },
         {
           $set: {
+            arabicName: arabicName,
             name: name,
             price: price,
             serialNumber: serialNumber,
@@ -124,6 +134,7 @@ export const deleteProduct = async (req, res) => {
 export const createProduct = async (req, res) => {
   try {
     const {
+      arabicName,
       name,
       price,
       serialNumber,
@@ -136,6 +147,7 @@ export const createProduct = async (req, res) => {
     const images = req.files ? req.files.map((image) => image.filename) : null;
     const detail = JSON.parse(details);
     const newProduct = new ProductSchema({
+      arabicName: arabicName,
       name: name,
       price: price,
       serialNumber: serialNumber,

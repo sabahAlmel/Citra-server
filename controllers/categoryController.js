@@ -3,10 +3,11 @@ import CategorySchema from "../models/categoryModel.js";
 //create category
 
 export const createCategory = async (req, res) => {
-  const { name } = req.body;
+  const { name, arabicName } = req.body;
   try {
     const newCategory = new CategorySchema({
       name,
+      arabicName,
     });
     await newCategory.save();
     res
@@ -59,7 +60,7 @@ export const updateCategory = async (req, res) => {
     const { name } = req.body;
     const updatedCategory = await CategorySchema.findByIdAndUpdate(
       { _id: id },
-      { $set: { name: name } }
+      { $set: { name: name, arabicName: arabicName } }
     );
     res.status(200).json({
       message: "category updated successfully !",

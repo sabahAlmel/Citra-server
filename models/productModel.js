@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import slugify from "slugify";
 const productModelSchema = new mongoose.Schema(
   {
+    arabicName: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -52,7 +56,7 @@ const productModelSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      unique: false,
+      unique: true,
     },
     type: {
       type: String,

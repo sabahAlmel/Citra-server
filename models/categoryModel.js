@@ -3,6 +3,10 @@ import slugify from "slugify";
 
 const categoryModelSchema = new mongoose.Schema(
   {
+    arabicName: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
