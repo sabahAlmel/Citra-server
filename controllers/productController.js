@@ -29,17 +29,27 @@ export const getAll = async (req, res) => {
   }
 };
 
-// Fetch one product by ID
-export const getOne = async (req, res) => {
-  const id = req.params.id;
+export const getNumber = async (req, res) => {
+  let number;
   try {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "No such product!" });
-    }
-    const product = await ProductSchema.findById({ _id: id });
+    const allProducts = await ProductSchema.find();
+    number = allProducts.length == 0 ? 1 : allProducts.length;
+    return res.status(200).json({ number: number });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "cannot get number of products" });
+  }
+};
+
+// Fetch one product by slug
+export const getOne = async (req, res) => {
+  const slug = req.params.slug;
+  try {
+    const product = await ProductSchema.findOne({ slug: slug });
+
     if (product) {
       return res.json({
-        message: "fetched one product",
+        message: "Fetched one product",
         fetchedProduct: product,
       });
     } else {
@@ -47,7 +57,7 @@ export const getOne = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "internal server err!" });
+    res.status(500).json({ error: "Internal server error!" });
   }
 };
 
@@ -223,27 +233,55 @@ export const getByCategory = async (req, res) => {
 
 //get products by sub category
 
+// export const getBySubCategory = async (req, res) => {
+//   const page = req.query.page || 1;
+//   const limit = 10;
+//   const skip = (page - 1) * limit;
+//   try {
+//     const subCategoryID = req.params.subCategoryID;
+//     const fetchedProducts = await ProductSchema.find({
+//       subCategoryID: subCategoryID,
+//     })
+//       .populate("subCategoryID")
+//       .skip(skip)
+//       .limit(limit);
+//     if (!fetchedProducts || fetchedProducts.length == 0) {
+//       return res.status(404).send(" no more products to show !");
+//     }
+//     res.status(200).json({
+//       message: `fetched products under ${fetchedProducts[0].subCategoryID.name} :`,
+//       products: fetchedProducts,
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: "error fetching products", error: err });
+//   }
+// };
+
 export const getBySubCategory = async (req, res) => {
   const page = req.query.page || 1;
   const limit = 10;
   const skip = (page - 1) * limit;
+
   try {
-    const subCategoryID = req.params.subCategoryID;
+    const subCategoryIDs = req.params.subCategoryIDs.split(",");
+
     const fetchedProducts = await ProductSchema.find({
-      subCategoryID: subCategoryID,
+      subCategoryID: { $in: subCategoryIDs },
     })
       .populate("subCategoryID")
       .skip(skip)
       .limit(limit);
-    if (!fetchedProducts || fetchedProducts.length == 0) {
-      return res.status(404).send(" no more products to show !");
+
+    if (!fetchedProducts || fetchedProducts.length === 0) {
+      return res.status(404).send("No more products to show!");
     }
+
     res.status(200).json({
-      message: `fetched products under ${fetchedProducts[0].subCategoryID.name} :`,
+      message: `Fetched products under selected subcategories:`,
       products: fetchedProducts,
     });
   } catch (err) {
-    res.status(500).json({ message: "error fetching products", error: err });
+    res.status(500).json({ message: "Error fetching products", error: err });
   }
 };
 

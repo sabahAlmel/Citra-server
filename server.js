@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
-app.use("/images", express.static("images"));
+app.use(express.static("images"));
 
 app.use("/user", userRouter);
 app.use("/product", productRouter);
@@ -30,10 +30,7 @@ async function startServer() {
   mongoose.connection.on("error", (err) => {
     console.error(err);
   });
-  await mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(process.env.MONGO_URL);
 
   app.listen(process.env.PORT, () => {
     console.log("listening on port: " + process.env.PORT);
