@@ -4,21 +4,23 @@ import { createToken, verifyToken } from "../utils/token.js";
 
 // Sign up function
 export const signup = async (req, res) => {
-  const { name, email, role, photourl, phone } = req.body;
+  let { name, email,role, photourl, phone } = req.body;
+  phone=Number(phone)
   const generatedPassword = "random";
   const password = req.body.password || generatedPassword;
-  const picture = req.file.filename;
+  // const picture = req.file.filename;
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
   try {
     const newUser = new UserSchema({
       name,
       email,
+      phone,
+      role,
       password: hash,
       role,
-      picture: picture,
+      // picture: picture,
       photourl,
-      phone,
     });
     await newUser.save();
     const token = createToken(newUser);
@@ -90,9 +92,9 @@ export const gsignup = async (req, res) => {
 // Log in function
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await UserSchema.findOne({ email: email });
+  const user = await UserSchema.findOne({ email:email });
   if (!user) {
-    return res.status(401).send("user not found !");
+    return res.status(401).send("user not found !" );
   } else {
     try {
       if (await bcrypt.compare(password, user.password)) {
@@ -112,6 +114,9 @@ export const login = async (req, res) => {
     }
   }
 };
+
+
+
 
 //logout fct
 

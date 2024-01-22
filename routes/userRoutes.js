@@ -16,6 +16,7 @@ export const userRouter = express.Router();
 
 userRouter.post("/signup", upload.single("picture"), signup);
 userRouter.post("/gsignup", upload.single("picture"), gsignup);
+
 userRouter.post("/login", login);
 
 userRouter.get("/getone", getOne);
