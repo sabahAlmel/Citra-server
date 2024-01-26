@@ -188,7 +188,7 @@ export const searchProduct = async (req, res) => {
     const { search } = req.body;
     const searchRegex = new RegExp(search, "i");
     const foundProducts = await ProductSchema.find({
-      name: searchRegex,
+      arabicName: searchRegex,
     })
       .skip(skip)
       .limit(limit);
