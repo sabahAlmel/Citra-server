@@ -143,7 +143,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   const token = req.cookies.userToken;
   const decoded = verifyToken(token);
-  const id = decoded.data?.id;
+  const id = decoded.data ? decoded.data.id : undefined;
   try {
     if (!id) {
       return res.status(400).json({ error: "NO Token!!!!!!!" });
@@ -171,39 +171,31 @@ export const getOne = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const id = req.params.id;
+  console.log(req.body);
+  console.log("Hi I am here");
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, phone, role } = req.body;
+    console.log("HIII BODY", req.body);
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    if (req.file) {
-      await UserSchema.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            name: name,
-            email: email,
-            password: hash,
-            picture: req.file.filename,
-            phone: phone,
-          },
-        }
-      );
-    } else {
-      await UserSchema.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            name: name,
-            email: email,
-            password: hash,
-            phone: phone,
-          },
-        }
-      );
-    }
+
+    await UserSchema.findByIdAndUpdate(
+      { _id: id },
+
+      {
+        name: name,
+        email: email,
+        password: hash,
+        phone: phone,
+        role: role,
+      }
+    );
+
+    console.log("Hi I am updated");
+
     return res.status(200).json({ message: "user updated successfully" });
   } catch (err) {
-    console.log(err);
+    console.log("errbacj", err);
     res.status(500).json({ error: "Trouble updating user info" });
   }
 };

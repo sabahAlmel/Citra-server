@@ -24,10 +24,6 @@ const orderModelSchema = new mongoose.Schema(
       ref: "UserSchema",
       required: true,
     },
-    updateDate: {
-      type: String,
-      required: true,
-    },
     totalPrice: {
       type: Number,
       required: true,
