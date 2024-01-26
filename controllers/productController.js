@@ -263,7 +263,7 @@ export const getBySubCategory = async (req, res) => {
   const skip = (page - 1) * limit;
 
   try {
-    const subCategoryIDs = req.params.subCategoryIDs.split(",");
+    const subCategoryIDs = req.params.subCategoryID.split(",");
 
     const fetchedProducts = await ProductSchema.find({
       subCategoryID: { $in: subCategoryIDs },
