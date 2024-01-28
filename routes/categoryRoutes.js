@@ -16,4 +16,4 @@ categoryRouter.get("/getall", getAllCategories);
 
 categoryRouter.put("/update/:id", updateCategory);
 
-categoryRouter.delete("/delete", deleteCategory);
+categoryRouter.delete("/delete/:id", deleteCategory);

@@ -93,8 +93,9 @@ export const gsignup = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await UserSchema.findOne({ email:email });
+  console.log(user,'hello')
   if (!user) {
-    return res.status(401).send("user not found !" );
+     res.status(401).send("user not found !" );
   } else {
     try {
       if (await bcrypt.compare(password, user.password)) {

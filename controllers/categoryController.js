@@ -57,7 +57,8 @@ export const getAllCategories = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const { name } = req.body;
+    const { name , arabicName } = req.body;
+
     const updatedCategory = await CategorySchema.findByIdAndUpdate(
       { _id: id },
       { $set: { name: name, arabicName: arabicName } }
@@ -73,17 +74,30 @@ export const updateCategory = async (req, res) => {
 
 //delete category
 
+
 export const deleteCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const deletedCategory = await CategorySchema.deleteOne({ _id: id });
+
+    // Use findByIdAndDelete for more straightforward deletion by ID
+    const deletedCategory = await CategorySchema.findByIdAndDelete(id);
+
+    if (!deletedCategory) {
+      // If no category is found with the given ID
+      return res.status(404).json({
+        message: "Category not found",
+      });
+    }
+
+    // If the category is deleted successfully
     res.status(200).json({
       message: "Category deleted successfully",
       category: deletedCategory,
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: " could not delete category !", error: err });
+    // Handle unexpected errors
+    console.error("Error deleting category:", err);
+    res.status(500).json({ message: "Could not delete category", error: err.message });
   }
 };
+
