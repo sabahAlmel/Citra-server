@@ -20,7 +20,7 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-app.use("/images", express.static("images"));
+app.use(express.static("images"));
 
 app.use("/user", userRouter);
 app.use("/product", productRouter);

@@ -187,7 +187,7 @@ export const searchProduct = async (req, res) => {
     const { search } = req.body;
     const searchRegex = new RegExp(search, "i");
     const foundProducts = await ProductSchema.find({
-      name: searchRegex,
+      arabicName: searchRegex,
     })
       .skip(skip)
       .limit(limit);
@@ -262,7 +262,7 @@ export const getBySubCategory = async (req, res) => {
   const skip = (page - 1) * limit;
 
   try {
-    const subCategoryIDs = req.params.subCategoryIDs.split(",");
+    const subCategoryIDs = req.params.subCategoryID.split(",");
 
     const fetchedProducts = await ProductSchema.find({
       subCategoryID: { $in: subCategoryIDs },

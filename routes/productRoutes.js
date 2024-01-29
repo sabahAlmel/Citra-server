@@ -18,7 +18,7 @@ export const productRouter = express.Router();
 productRouter.get("/getone/:slug", getOne);
 productRouter.get("/getall", getAll);
 productRouter.get("/getNumber", getNumber);
-productRouter.get("/search", searchProduct);
+productRouter.post("/search", searchProduct);
 productRouter.get("/bycategory/:categoryID", getByCategory);
 productRouter.get("/bysubcategory/:subCategoryID", getBySubCategory);
 
