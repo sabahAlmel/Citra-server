@@ -169,36 +169,64 @@ export const getOne = async (req, res) => {
 
 // Update user
 
+// export const updateUser = async (req, res) => {
+//   const id = req.params.id;
+//   console.log(req.body);
+//   console.log("Hi I am here");
+//   try {
+//     const { name, email, password, phone, role } = req.body;
+//     console.log("HIII BODY", req.body);
+//     const salt = bcrypt.genSaltSync(10);
+//     const hash = bcrypt.hashSync(password, salt);
+
+//     await UserSchema.findByIdAndUpdate(
+//       { _id: id },
+
+//       {
+//         name: name,
+//         email: email,
+//         password: hash,
+//         phone: phone,
+//         role: role,
+//       }
+//     );
+
+//     console.log("Hi I am updated");
+
+//     return res.status(200).json({ message: "user updated successfully" });
+//   } catch (err) {
+//     console.log("errbacj", err);
+//     res.status(500).json({ error: "Trouble updating user info" });
+//   }
+// };
+
+// update the user
 export const updateUser = async (req, res) => {
   const id = req.params.id;
-  console.log(req.body);
-  console.log("Hi I am here");
+  console.log("Updating user with ID:", id);
+
   try {
-    const { name, email, password, phone, role } = req.body;
-    console.log("HIII BODY", req.body);
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
+    const { name, email, phone, role } = req.body;
 
     await UserSchema.findByIdAndUpdate(
       { _id: id },
-
       {
         name: name,
-        email: email,
-        password: hash,
+        // email: email,
         phone: phone,
         role: role,
       }
     );
 
-    console.log("Hi I am updated");
+    console.log("User updated successfully");
 
-    return res.status(200).json({ message: "user updated successfully" });
+    return res.status(200).json({ message: "User updated successfully" });
   } catch (err) {
-    console.log("errbacj", err);
-    res.status(500).json({ error: "Trouble updating user info" });
+    console.error("Error updating user:", err);
+    return res.status(500).json({ error: "Trouble updating user info" });
   }
 };
+
 
 // Delete user
 
