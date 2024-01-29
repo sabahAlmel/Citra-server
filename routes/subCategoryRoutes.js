@@ -18,4 +18,4 @@ subCategoryRouter.patch("/:id", updateSubCateg);
 
 subCategoryRouter.post("/create", createSubCateg);
 
-subCategoryRouter.delete("/:id", deleteSubCateg);
+subCategoryRouter.delete("/delete/:id", deleteSubCateg);

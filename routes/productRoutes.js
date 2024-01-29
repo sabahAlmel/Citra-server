@@ -10,6 +10,7 @@ import {
   getBySubCategory,
   deleteAll,
   getNumber,
+  getLastEight,
 } from "../controllers/productController.js";
 import upload from "../middlewares/multer.js";
 
@@ -18,7 +19,8 @@ export const productRouter = express.Router();
 productRouter.get("/getone/:slug", getOne);
 productRouter.get("/getall", getAll);
 productRouter.get("/getNumber", getNumber);
-productRouter.get("/search", searchProduct);
+productRouter.get("/getLastEight", getLastEight);
+productRouter.post("/search", searchProduct);
 productRouter.get("/bycategory/:categoryID", getByCategory);
 productRouter.get("/bysubcategory/:subCategoryID", getBySubCategory);
 
