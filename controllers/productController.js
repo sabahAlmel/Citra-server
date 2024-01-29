@@ -168,7 +168,6 @@ export const createProduct = async (req, res) => {
       subCategoryID: subCategoryID,
       categoryID: categoryID,
     });
-
     await newProduct.save();
     res
       .status(200)
