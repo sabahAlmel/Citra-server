@@ -233,30 +233,6 @@ export const getByCategory = async (req, res) => {
 
 //get products by sub category
 
-// export const getBySubCategory = async (req, res) => {
-//   const page = req.query.page || 1;
-//   const limit = 10;
-//   const skip = (page - 1) * limit;
-//   try {
-//     const subCategoryID = req.params.subCategoryID;
-//     const fetchedProducts = await ProductSchema.find({
-//       subCategoryID: subCategoryID,
-//     })
-//       .populate("subCategoryID")
-//       .skip(skip)
-//       .limit(limit);
-//     if (!fetchedProducts || fetchedProducts.length == 0) {
-//       return res.status(404).send(" no more products to show !");
-//     }
-//     res.status(200).json({
-//       message: `fetched products under ${fetchedProducts[0].subCategoryID.name} :`,
-//       products: fetchedProducts,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: "error fetching products", error: err });
-//   }
-// };
-
 export const getBySubCategory = async (req, res) => {
   const page = req.query.page || 1;
   const limit = 10;
@@ -282,6 +258,21 @@ export const getBySubCategory = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: "Error fetching products", error: err });
+  }
+};
+
+//get products by sub category
+
+export const getLastEight = async (req, res) => {
+  try {
+    const allProducts = await ProductSchema.find().sort({ _id: -1 }).limit(8);
+    if (!allProducts || allProducts.length == 0) {
+      return res.status(404).send("No products found!");
+    }
+    return res.status(200).json({ products: allProducts });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Cannot fetch products" });
   }
 };
 
