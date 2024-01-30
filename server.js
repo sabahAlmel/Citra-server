@@ -7,11 +7,13 @@ import { productRouter } from "./routes/productRoutes.js";
 import { subCategoryRouter } from "./routes/subCategoryRoutes.js";
 import { categoryRouter } from "./routes/categoryRoutes.js";
 import { orderRouter } from "./routes/orderRoutes.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 // express app
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
