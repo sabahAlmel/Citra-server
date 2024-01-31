@@ -12,5 +12,5 @@ export const orderRouter = express.Router();
 orderRouter.post("/create", createOrder);
 orderRouter.get("/all", getAllOrders);
 orderRouter.get("/:id", getOneOrder);
-orderRouter.put(":id", updateOrder);
-orderRouter.delete(":id", deleteOrder);
+orderRouter.put("/:id", updateOrder);
+orderRouter.delete("/:id", deleteOrder);
