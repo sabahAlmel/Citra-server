@@ -115,6 +115,8 @@ export const updateProduct = async (req, res) => {
             details: details,
             type: type,
             description: description,
+            subCategoryID: subCategory,
+            categoryID:category
           },
         }
       );
