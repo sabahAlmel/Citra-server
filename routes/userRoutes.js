@@ -23,6 +23,6 @@ userRouter.get("/getone", getOne);
 userRouter.get("/logout", authorized, logout);
 userRouter.get("/getall", getAll);
 
-userRouter.patch("/:id", upload.single("picture"), updateUser);
+userRouter.patch("/:id",  updateUser);
 
 userRouter.delete("/:id", deleteUser);
