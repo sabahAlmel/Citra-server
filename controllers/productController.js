@@ -18,8 +18,7 @@ export const getAll = async (req, res) => {
   const limit = 10;
   const skip = (page - 1) * limit;
   try {
-    const allProducts = await ProductSchema.find().populate("categoryID", "name")
-    .populate("subCategoryID", "name").skip(skip).limit(limit);
+    const allProducts = await ProductSchema.find().populate("categoryID").populate('subCategoryID').skip(skip).limit(limit);
     if (!allProducts || allProducts.length == 0) {
       return res.status(404).send(" no more products to show !");
     }
@@ -212,7 +211,7 @@ export const searchProduct = async (req, res) => {
   }
 };
 
-// get by category
+// get product  by category
 
 export const getByCategory = async (req, res) => {
   const page = req.query.page || 1;
