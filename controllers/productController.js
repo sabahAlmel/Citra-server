@@ -12,6 +12,15 @@ function removeImage(image) {
   });
 }
 
+export const getAllNoPagination = async (req, res, next) => {
+  try {
+    const products = await ProductSchema.find();
+    res.status(200).json({ products });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Fetch all Products
 export const getAll = async (req, res) => {
   const page = req.query.page || 1;

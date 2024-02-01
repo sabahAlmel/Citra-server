@@ -79,4 +79,4 @@ const ProductSchema = mongoose.model("ProductSchema", productModelSchema);
 export default ProductSchema;
 
 // [{"color":"red", "sizes":[{"size":"small", "quantity":9},{"size":"medium", "quantity":20}]},{"color":"blue", "sizes":[{"size":"small", "quantity":9}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]}]
-// [{"color":"red", "sizes":[{"size":"small"},{"size":"medium"}]},{"color":"blue", "sizes":[{"size":"small"}]},{"color":"brown", "sizes":[{"size":"large"},{"size":"medium"}]}]
+// [{"color":"red", "sizes":[{"size":"small"},{"size":"medium"}]},{"color":"blue", "sizes":[{"size":"testsmall"}]},{"color":"brown", "sizes":[{"size":"large"},{"size":"medium"}]}]

@@ -11,6 +11,7 @@ import {
   deleteAll,
   getNumber,
   getLastEight,
+  getAllNoPagination,
 } from "../controllers/productController.js";
 import upload from "../middlewares/multer.js";
 
@@ -24,6 +25,7 @@ productRouter.post("/search", searchProduct);
 productRouter.get("/bycategory/:categoryID", getByCategory);
 productRouter.get("/bysubcategory/:subCategoryID", getBySubCategory);
 
+productRouter.get("/all-data", getAllNoPagination);
 productRouter.patch("/:id", upload.array("image", 5), updateProduct);
 productRouter.post("/create", upload.array("image", 5), createProduct);
 productRouter.delete("/thanos", deleteAll);
