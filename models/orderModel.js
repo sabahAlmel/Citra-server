@@ -11,6 +11,7 @@ const orderModelSchema = new mongoose.Schema(
       ref: "ProductSchema",
       required: true,
     },
+ 
     orderNB: {
       type: Number,
       required: true,
@@ -24,6 +25,7 @@ const orderModelSchema = new mongoose.Schema(
       ref: "UserSchema",
       required: true,
     },
+
     totalPrice: {
       type: Number,
       required: true,

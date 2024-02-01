@@ -18,8 +18,11 @@ export const getAll = async (req, res) => {
   const limit = 10;
   const skip = (page - 1) * limit;
   try {
-    const allProducts = await ProductSchema.find().populate("categoryID", "name")
-    .populate("subCategoryID", "name").skip(skip).limit(limit);
+    const allProducts = await ProductSchema.find()
+      .populate("categoryID", "name")
+      .populate("subCategoryID", "name")
+      .skip(skip)
+      .limit(limit);
     if (!allProducts || allProducts.length == 0) {
       return res.status(404).send(" no more products to show !");
     }
@@ -80,8 +83,7 @@ export const updateProduct = async (req, res) => {
       description,
       arabicName,
       subCategory,
-      category
-      
+      category,
     } = req.body;
     const images = req.files ? req.files.map((image) => image.filename) : null;
 
@@ -99,7 +101,7 @@ export const updateProduct = async (req, res) => {
             type: type,
             description: description,
             subCategoryID: subCategory,
-            categoryID:category
+            categoryID: category,
           },
         }
       );
@@ -116,7 +118,7 @@ export const updateProduct = async (req, res) => {
             type: type,
             description: description,
             subCategoryID: subCategory,
-            categoryID:category
+            categoryID: category,
           },
         }
       );

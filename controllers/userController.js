@@ -98,7 +98,7 @@ export const login = async (req, res) => {
      res.status(401).send("user not found !" );
   } else {
     try {
-      if (await bcrypt.compare(password, user.password)) {
+      if ( await bcrypt.compare(password, user.password)) {
         const token = createToken(user);
         const decoded = verifyToken(token);
         res
@@ -111,7 +111,7 @@ export const login = async (req, res) => {
           .json({ message: "user logged in successfully", token: decoded });
       }
     } catch (error) {
-      console.log(err);
+      console.log("error back ",error);
     }
   }
 };
