@@ -28,17 +28,17 @@ const productModelSchema = new mongoose.Schema(
       {
         color: {
           type: String,
-          required: true,
+          required: false,
         },
         sizes: [
           {
             size: {
               type: String,
-              required: true,
+              required: false,
             },
             quantity: {
               type: Number,
-              required: true,
+              required: false,
             },
           },
         ],
@@ -47,7 +47,7 @@ const productModelSchema = new mongoose.Schema(
     subCategoryID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "SubCategorySchema",
-      required: true,
+      required: false,
     },
     categoryID: {
       type: mongoose.Schema.Types.ObjectId,
@@ -79,3 +79,4 @@ const ProductSchema = mongoose.model("ProductSchema", productModelSchema);
 export default ProductSchema;
 
 // [{"color":"red", "sizes":[{"size":"small", "quantity":9},{"size":"medium", "quantity":20}]},{"color":"blue", "sizes":[{"size":"small", "quantity":9}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]},{"color":"brown", "sizes":[{"size":"large", "quantity":10},{"size":"medium", "quantity":20}]}]
+// [{"color":"red", "sizes":[{"size":"small"},{"size":"medium"}]},{"color":"blue", "sizes":[{"size":"testsmall"}]},{"color":"brown", "sizes":[{"size":"large"},{"size":"medium"}]}]
