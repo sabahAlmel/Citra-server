@@ -12,14 +12,26 @@ function removeImage(image) {
   });
 }
 
+export const getAllNoPagination = async (req, res, next) => {
+  try {
+    const products = await ProductSchema.find();
+    res.status(200).json({ products });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Fetch all Products
 export const getAll = async (req, res) => {
   const page = req.query.page || 1;
   const limit = 10;
   const skip = (page - 1) * limit;
   try {
-    const allProducts = await ProductSchema.find().populate("categoryID", "name")
-    .populate("subCategoryID", "name").skip(skip).limit(limit);
+    const allProducts = await ProductSchema.find()
+      .populate("categoryID", "name")
+      .populate("subCategoryID", "name")
+      .skip(skip)
+      .limit(limit);
     if (!allProducts || allProducts.length == 0) {
       return res.status(404).send(" no more products to show !");
     }
@@ -80,8 +92,7 @@ export const updateProduct = async (req, res) => {
       description,
       arabicName,
       subCategory,
-      category
-      
+      category,
     } = req.body;
     const images = req.files ? req.files.map((image) => image.filename) : null;
 
@@ -99,7 +110,7 @@ export const updateProduct = async (req, res) => {
             type: type,
             description: description,
             subCategoryID: subCategory,
-            categoryID:category
+            categoryID: category,
           },
         }
       );
@@ -163,13 +174,13 @@ export const createProduct = async (req, res) => {
       categoryID,
     } = req.body;
     const images = req.files ? req.files.map((image) => image.filename) : null;
-    const detail = JSON.parse(details);
+    // const detail = JSON.parse(details);
     const newProduct = new ProductSchema({
       arabicName: arabicName,
       name: name,
       price: price,
       serialNumber: serialNumber,
-      details: detail,
+      details: details,
       images: images,
       type: type,
       description: description,
@@ -181,6 +192,7 @@ export const createProduct = async (req, res) => {
       .status(200)
       .json({ message: "product added successfully !", product: newProduct });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "problem adding product", error: err });
   }
 };
