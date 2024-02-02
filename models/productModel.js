@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import mongooseAutoPopulate from "mongoose-autopopulate";
 const productModelSchema = new mongoose.Schema(
   {
     arabicName: {
@@ -48,11 +49,13 @@ const productModelSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "SubCategorySchema",
       required: false,
+      autopopulate: true,
     },
     categoryID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "CategorySchema",
       required: true,
+      autopopulate: true,
     },
     slug: {
       type: String,
@@ -74,6 +77,8 @@ productModelSchema.pre("save", function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+
+productModelSchema.plugin(mongooseAutoPopulate);
 const ProductSchema = mongoose.model("ProductSchema", productModelSchema);
 
 export default ProductSchema;
