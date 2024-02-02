@@ -28,8 +28,8 @@ export const getAll = async (req, res) => {
   const skip = (page - 1) * limit;
   try {
     const allProducts = await ProductSchema.find()
-      .populate("categoryID", "name")
-      .populate("subCategoryID", "name")
+      .populate("categoryID")
+      .populate("subCategoryID")
       .skip(skip)
       .limit(limit);
     if (!allProducts || allProducts.length == 0) {
@@ -126,6 +126,8 @@ export const updateProduct = async (req, res) => {
             details: details,
             type: type,
             description: description,
+            subCategoryID: subCategory,
+            categoryID: category,
           },
         }
       );
@@ -222,7 +224,7 @@ export const searchProduct = async (req, res) => {
   }
 };
 
-// get by category
+// get product  by category
 
 export const getByCategory = async (req, res) => {
   const page = req.query.page || 1;
