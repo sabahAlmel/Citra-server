@@ -5,7 +5,7 @@ export const createToken = (user) => {
     {
       id: user._id,
       name: user.name,
-      Role: user.role,
+      role: user.role,
       Picture: user.picture,
       photourl: user.photourl,
     },

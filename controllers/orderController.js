@@ -49,14 +49,41 @@ export const getOneOrder = async (req, res) => {
 
 //get all orders
 
+// export const getAllOrders = async (req, res) => {
+//   try {
+//     const allOrders = await OrderSchema.find().populate("productID") // Populate productName from ProductSchema
+//     .populate("userID"); // Populate userName from UserSchema
+// ;
+//     res
+//       .status(200)
+//       .json({ message: "orders fetched successfully !", orders: allOrders });
+//   } catch (err) {
+//     res.status(500).json({ message: "problem fetching ordersss", error: err });
+//   }
+// };
 export const getAllOrders = async (req, res) => {
   try {
-    const allOrders = await OrderSchema.find();
-    res
-      .status(200)
-      .json({ message: "orders fetched successfully !", orders: allOrders });
+    const allOrders = await OrderSchema.find()
+      .populate("productID", "arabicName") // Populate only the 'arabicName' field from ProductSchema
+      .populate("userID", "name"); // Populate only the 'name' field from UserSchema
+
+    const ordersWithPopulatedData = allOrders.map((order) => ({
+      _id: order._id,
+      status: order.status,
+      productName: order.productID.arabicName, // Use 'arabicName' from the populated 'productID'
+      orderNB: order.orderNB,
+      address: order.address,
+      userName: order.userID.name, // Use 'name' from the populated 'userID'
+      totalPrice: order.totalPrice,
+      createdAt: order.createdAt,
+    }));
+
+    res.status(200).json({
+      message: "orders fetched successfully!",
+      orders: ordersWithPopulatedData,
+    });
   } catch (err) {
-    res.status(500).json({ message: "problem fetching ordersss", error: err });
+    res.status(500).json({ message: "problem fetching orders", error: err });
   }
 };
 
