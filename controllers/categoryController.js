@@ -4,10 +4,12 @@ import CategorySchema from "../models/categoryModel.js";
 
 export const createCategory = async (req, res) => {
   const { name, arabicName } = req.body;
+  const image = req.file.filename;
   try {
     const newCategory = new CategorySchema({
       name,
       arabicName,
+      image,
     });
     await newCategory.save();
     res
@@ -57,11 +59,13 @@ export const getAllCategories = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const { name , arabicName } = req.body;
+    const { name, arabicName } = req.body;
+    let find = await CategorySchema.findById({ _id: id });
+    const image = req.file ? req.file.filename : find.image;
 
     const updatedCategory = await CategorySchema.findByIdAndUpdate(
       { _id: id },
-      { $set: { name: name, arabicName: arabicName } }
+      { $set: { name: name, arabicName: arabicName, image: image } }
     );
     res.status(200).json({
       message: "category updated successfully !",
@@ -73,7 +77,6 @@ export const updateCategory = async (req, res) => {
 };
 
 //delete category
-
 
 export const deleteCategory = async (req, res) => {
   try {
@@ -97,7 +100,8 @@ export const deleteCategory = async (req, res) => {
   } catch (err) {
     // Handle unexpected errors
     console.error("Error deleting category:", err);
-    res.status(500).json({ message: "Could not delete category", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Could not delete category", error: err.message });
   }
 };
-
