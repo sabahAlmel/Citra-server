@@ -36,11 +36,7 @@ const productModelSchema = new mongoose.Schema(
             size: {
               type: String,
               required: false,
-            },
-            quantity: {
-              type: Number,
-              required: false,
-            },
+            }
           },
         ],
       },
