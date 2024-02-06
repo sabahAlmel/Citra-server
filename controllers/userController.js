@@ -4,8 +4,7 @@ import { createToken, verifyToken } from "../utils/token.js";
 
 // Sign up function
 export const signup = async (req, res) => {
-  let { name, email,role, photourl, phone } = req.body;
-  phone=Number(phone)
+  let { name, email, role, photourl, phone } = req.body;
   const generatedPassword = "random";
   const password = req.body.password || generatedPassword;
   // const picture = req.file.filename;
@@ -60,6 +59,7 @@ export const gsignup = async (req, res) => {
         })
         .status(200)
         .json({ message: "user logged in successfully", token: decoded });
+      console.log(res);
       //
     } else {
       const newUser = new UserSchema({
@@ -92,13 +92,13 @@ export const gsignup = async (req, res) => {
 // Log in function
 export const login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await UserSchema.findOne({ email:email });
-  console.log(user,'hello')
+  const user = await UserSchema.findOne({ email: email });
+  console.log(user, "hello");
   if (!user) {
-     res.status(401).send("user not found !" );
+    res.status(401).send("user not found !");
   } else {
     try {
-      if ( await bcrypt.compare(password, user.password)) {
+      if (await bcrypt.compare(password, user.password)) {
         const token = createToken(user);
         const decoded = verifyToken(token);
         res
@@ -111,13 +111,10 @@ export const login = async (req, res) => {
           .json({ message: "user logged in successfully", token: decoded });
       }
     } catch (error) {
-      console.log("error back ",error);
+      console.log("error back ", error);
     }
   }
 };
-
-
-
 
 //logout fct
 
@@ -150,8 +147,9 @@ export const getOne = async (req, res) => {
       return res.status(400).json({ error: "NO Token!!!!!!!" });
     }
     const user = await UserSchema.findById(id);
+    console.log("getOne user", user);
     if (user) {
-      return res.json({
+      return res.status(200).json({
         Picture: user.picture,
         Role: user.role,
         id: user._id,
@@ -227,7 +225,6 @@ export const updateUser = async (req, res) => {
     return res.status(500).json({ error: "Trouble updating user info" });
   }
 };
-
 
 // Delete user
 
