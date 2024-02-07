@@ -3,23 +3,11 @@ import OrderSchema from "../models/orderModel.js";
 //create order
 
 export const createOrder = async (req, res) => {
-  const {
-    status,
-    productID,
-    orderNB,
-    address,
-    userID,
-    updateDate,
-    totalPrice,
-  } = req.body;
+  const { status, description, totalPrice } = req.body;
   try {
     const newOrder = new OrderSchema({
       status,
-      productID,
-      orderNB,
-      address,
-      userID,
-      updateDate,
+      description,
       totalPrice,
     });
     await newOrder.save();
@@ -63,17 +51,11 @@ export const getOneOrder = async (req, res) => {
 // };
 export const getAllOrders = async (req, res) => {
   try {
-    const allOrders = await OrderSchema.find()
-      .populate("productID", "arabicName") // Populate only the 'arabicName' field from ProductSchema
-      .populate("userID", "name"); // Populate only the 'name' field from UserSchema
-
+    const allOrders = await OrderSchema.find();
     const ordersWithPopulatedData = allOrders.map((order) => ({
       _id: order._id,
       status: order.status,
-      productName: order.productID.arabicName, // Use 'arabicName' from the populated 'productID'
-      orderNB: order.orderNB,
-      address: order.address,
-      userName: order.userID.name, // Use 'name' from the populated 'userID'
+      description: order.description,
       totalPrice: order.totalPrice,
       createdAt: order.createdAt,
     }));
@@ -129,26 +111,13 @@ export const updateOrder = async (req, res) => {
   console.log("Updating order with ID:", id);
 
   try {
-    const {
-      status,
-      productID,
-      orderNB,
-      address,
-      userID,
-      updateDate,
-      totalPrice,
-    } = req.body;
+    const { status, description, totalPrice } = req.body;
 
     const updatedResult = await OrderSchema.findByIdAndUpdate(
       { _id: id },
       {
         status,
-        
-        productID,
-        orderNB,
-        address,
-        userID,
-        updateDate,
+        description,
         totalPrice,
       },
       { new: true } // Return the updated document
@@ -169,7 +138,6 @@ export const updateOrder = async (req, res) => {
   }
 };
 
-
 //delete order
 
 export const deleteOrder = async (req, res) => {
@@ -182,9 +150,3 @@ export const deleteOrder = async (req, res) => {
     res.status(500).json({ error: " could not delete user" });
   }
 };
-
-
-
-
-
-

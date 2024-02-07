@@ -1,4 +1,6 @@
 import CategorySchema from "../models/categoryModel.js";
+import ProductSchema from "../models/productModel.js";
+import SubCategorySchema from "../models/subCategoryModel.js";
 
 //create category
 
@@ -91,6 +93,11 @@ export const deleteCategory = async (req, res) => {
         message: "Category not found",
       });
     }
+
+    const products = await ProductSchema.find({ categoryID: id });
+    const subCategories = await SubCategorySchema.find({ categoryID: id });
+    await ProductSchema.deleteMany(products);
+    await SubCategorySchema.deleteMany(subCategories);
 
     // If the category is deleted successfully
     res.status(200).json({

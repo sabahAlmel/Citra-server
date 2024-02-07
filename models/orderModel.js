@@ -6,26 +6,10 @@ const orderModelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    productID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProductSchema",
-      required: true,
-    },
- 
-    orderNB: {
-      type: Number,
-      required: true,
-    },
-    address: {
+    description: {
       type: String,
       required: true,
     },
-    userID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "UserSchema",
-      required: true,
-    },
-
     totalPrice: {
       type: Number,
       required: true,

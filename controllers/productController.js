@@ -115,22 +115,23 @@ export const updateProduct = async (req, res) => {
         }
       );
     } else {
-      await ProductSchema.findByIdAndUpdate(
-        { _id: id },
-        {
-          $set: {
-            arabicName: arabicName,
-            name: name,
-            price: price,
-            serialNumber: serialNumber,
-            details: details,
-            type: type,
-            description: description,
-            subCategoryID: subCategory,
-            categoryID: category,
-          },
-        }
-      );
+      // await ProductSchema.findByIdAndUpdate(
+      //   { _id: id },
+      //   {
+      //     $set: {
+      //       arabicName: arabicName,
+      //       name: name,
+      //       price: price,
+      //       serialNumber: serialNumber,
+      //       details: details,
+      //       type: type,
+      //       description: description,
+      //       subCategoryID: subCategory,
+      //       categoryID: category,
+      //     },
+      //   }
+      // );
+      await ProductSchema.findByIdAndUpdate(id, req.body, { new: true });
     }
     return res.status(200).json({ message: "Product updated successfully" });
   } catch (err) {
