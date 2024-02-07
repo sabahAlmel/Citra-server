@@ -32,12 +32,10 @@ export const getAll = async (req, res) => {
       .populate("subCategoryID")
       .skip(skip)
       .limit(limit)
-      .exec(() => {
         if (!allProducts || allProducts.length == 0) {
           return res.status(404).send(" no more products to show !");
         }
         return res.status(200).json({ products: allProducts });
-      });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "cannot fetch products" });
