@@ -8,6 +8,7 @@ import { subCategoryRouter } from "./routes/subCategoryRoutes.js";
 import { categoryRouter } from "./routes/categoryRoutes.js";
 import { orderRouter } from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";
+import { heroRouter } from "./routes/heroRoutes.js";
 dotenv.config();
 
 // express app
@@ -29,6 +30,7 @@ app.use("/product", productRouter);
 app.use("/subCategory", subCategoryRouter);
 app.use("/category", categoryRouter);
 app.use("/order", orderRouter);
+app.use("/hero", heroRouter)
 
 async function startServer() {
   mongoose.connection.once("open", () => {
