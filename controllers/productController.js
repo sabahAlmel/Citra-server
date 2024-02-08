@@ -173,8 +173,10 @@ export const createProduct = async (req, res) => {
       description,
       subCategoryID,
       categoryID,
+      images,
     } = req.body;
-    const images = req.files ? req.files.map((image) => image.filename) : null;
+    console.log(req.body);
+    // const images = req.files ? req.files.map((image) => image.filename) : null;
     // const detail = JSON.parse(details);
     const newProduct = new ProductSchema({
       arabicName: arabicName,

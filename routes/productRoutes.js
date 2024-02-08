@@ -26,7 +26,7 @@ productRouter.get("/bycategory/:categoryID", getByCategory);
 productRouter.get("/bysubcategory/:subCategoryID", getBySubCategory);
 
 productRouter.get("/all-data", getAllNoPagination);
-productRouter.patch("/:id", upload.array("image", 5), updateProduct);
-productRouter.post("/create", upload.array("image", 5), createProduct);
+productRouter.patch("/:id", upload.array("images", 5), updateProduct);
+productRouter.post("/create", createProduct);
 productRouter.delete("/thanos", deleteAll);
 productRouter.delete("/:id", deleteProduct);
